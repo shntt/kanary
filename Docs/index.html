@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanary - macOS向けIME切り替えツール</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            :root {
+                scroll-behavior: smooth;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+    <header class="glass-effect fixed w-full z-20">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <h1 class="text-2xl text-gray-900 font-mono cursor-pointer" id="logo">Kanary</h1>
+            </div>
+
+            <!-- ハンバーガーメニューボタン (SMサイズ以下で表示) -->
+            <button class="sm:hidden p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu()" aria-label="メニュー">
+                <!-- Heroicons - メニューアイコン -->
+                <svg class="h-6 w-6 text-gray-600 menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+                <!-- Heroicons - バツアイコン（初期状態では非表示） -->
+                <svg class="h-6 w-6 text-gray-600 close-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- デスクトップメニュー (SM以上で表示) -->
+            <div class="hidden sm:flex items-center space-x-8">
+                <a href="#features"
+                    class="scroll-link text-gray-600 hover:text-black transition-colors duration-200">機能</a>
+                <a href="#install-section"
+                    class="scroll-link text-gray-600 hover:text-black transition-colors duration-200">インストール</a>
+                <a href="https://github.com/shntt/Kanary" target="_blank" rel="noopener noreferrer"
+                    class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900 transition-colors duration-200">
+                    <!-- Heroicons - 外部リンクアイコン -->
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- モバイルメニュー (SMサイズ以下で表示) -->
+        <div class="mobile-menu sm:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg">
+                <a href="#features"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50">
+                    機能
+                </a>
+                <a href="#install-section"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50">
+                    インストール
+                </a>
+                <a href="https://github.com/shntt/Kanary" target="_blank" rel="noopener noreferrer"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 bg-gray-100 hover:bg-gray-200">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                        <span>GitHub</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-0">
+        <!-- Hero Section -->
+        <section class="h-screen flex items-center px-0 md:px-12 lg:px-20 hero-container">
+            <div class="max-w-6xl mx-auto relative w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
+                    <!-- Text Content -->
+                    <div class="text-left mt-12 mx-10 md:mr-0 md:ml-0 lg:ml-0 relative z-10">
+                        <h2
+                            class="text-4xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+                            ⌘Commandキーで<br>
+                            <span class="gradient-text">英数／かな切り替え</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-12 leading-relaxed">
+                            Apple Siliconに対応</br>無料
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-start space-y-4 sm:space-y-0 sm:space-x-4 w-44">
+                            <a href="https://github.com/shntt/Kanary/releases/latest/download/Kanary.dmg"
+                                class="flex items-center justify-center space-x-3 pl-6 pr-8 py-4 rounded-xl text-lg font-medium text-white bg-black hover:bg-gray-900 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download</span>
+                            </a>
+                            <a href="https://github.com/shntt/Kanary"
+                                class="flex items-center justify-center space-x-3 pl-7 pr-8 py-4 rounded-xl text-lg font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span>GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Screenshot Container -->
+                    <div class="screenshot-container mt-3">
+                        <img src="Kanary_screenshot.png" alt="Kanary アプリケーションの設定画面"
+                            class="screenshot-image xl:pr-60 xl:mr-20" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section -->
+        <section id="features" class="py-24 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-20">機能</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-8 rounded-2xl bg-white hover:shadow-lg transition-shadow duration-200 hover-lift">
+                        <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">シンプルな操作</h3>
+                        <p class="text-gray-600">Commandキーの左右で入力モードを切り替えます。</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-white hover:shadow-lg transition-shadow duration-200 hover-lift">
+                        <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">アプリごとの設定</h3>
+                        <p class="text-gray-600">アプリケーションごとに有効・無効を切り替えられます。</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-white hover:shadow-lg transition-shadow duration-200 hover-lift">
+                        <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">自動起動</h3>
+                        <p class="text-gray-600">ログイン時の自動起動に対応しています。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Install/Uninstall Section -->
+        <section id="install-section" class="pt-24 pb-36 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- タブボタン -->
+                <div class="flex justify-center mb-20">
+                    <div class="bg-white rounded-xl p-1 flex space-x-1 shadow-sm">
+                        <button data-tab="install-content"
+                            class="tab-button px-6 sm:px-8 md:px-10 py-4 rounded-xl font-semibold text-sm sm:text-lg font-medium transition-colors duration-200 bg-black text-white">
+                            インストール
+                        </button>
+                        <button data-tab="uninstall-content"
+                            class="tab-button px-4 sm:px-10 md:px-8 py-4 rounded-xl font-semibold text-sm sm:text-lg font-medium transition-colors duration-200 text-gray-600 hover:text-gray-900">
+                            アンインストール
+                        </button>
+                    </div>
+                </div>
+
+                <!-- インストール手順 -->
+                <div id="install-content" class="tab-content max-w-2xl mx-auto">
+                    <div class="space-y-12">
+                        <div class="flex items-start space-x-6">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-black text-white text-xl font-semibold">
+                                1</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-3">ダウンロードと起動</h3>
+                                <p class="text-gray-600 text-lg">dmgファイルをダウンロードし、中身をアプリケーションフォルダに移動して起動します。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-black text-white text-xl font-semibold">
+                                2</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-3">アクセシビリティの設定</h3>
+                                <p class="text-gray-600 text-lg">システム設定からアクセシビリティの許可を行います。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アンインストール手順 -->
+                <div id="uninstall-content" class="tab-content max-w-2xl mx-auto">
+                    <div class="space-y-12">
+                        <div class="flex items-start space-x-6">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-black text-white text-xl font-semibold">
+                                1</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-3">アプリケーションの削除</h3>
+                                <p class="text-gray-600 text-lg">アプリケーションフォルダ内のKanaryをゴミ箱に移動します。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-black text-white text-xl font-semibold">
+                                2</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-3">関連ファイルの削除（オプション）</h3>
+                                <p class="text-gray-600 text-lg">必要に応じて以下のファイルを削除してください。</p>
+                                <ul class="text-gray-600 mt-2 space-y-2">
+                                    <li class="break-all font-mono text-sm">
+                                        ~/Library/Preferences/com.shntt.Kanary.plist</li>
+                                    <li class="break-all font-mono text-sm">~/Library/Caches/com.shntt.Kanary/</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section id="requirements" class="pt-24 pb-36 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-20">動作環境</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 対応OS -->
+            <div class="p-8 rounded-2xl bg-gray-50 hover:shadow-lg transition-shadow duration-200 hover-lift">
+                <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">対応OS</h3>
+                <p class="text-gray-600">macOS 13.5以降</p>
+            </div>
+
+            <!-- 対応機種 -->
+            <div class="p-8 rounded-2xl bg-gray-50 hover:shadow-lg transition-shadow duration-200 hover-lift">
+                <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">対応機種</h3>
+                <ul class="text-gray-600 space-y-2">
+                    <li>Apple Silicon Mac</li>
+                </ul>
+            </div>
+
+            <!-- 動作と権限 -->
+            <div class="p-8 rounded-2xl bg-gray-50 hover:shadow-lg transition-shadow duration-200 hover-lift">
+                <div class="w-16 h-16 rounded-xl bg-black text-white flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">プライバシー</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-2">
+                        <svg class="w-5 h-5 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-600">通信機能なし</p>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <svg class="w-5 h-5 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-600">データ保存なし</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-mono mb-4">Kanary</h3>
+                    <p class="text-gray-400">macOS向けIME切り替えツール</p>
+                    <p class="text-gray-500 mt-2">© 2024 Shinto Takahashi</p>
+                </div>
+                <div class="flex justify-end space-x-8">
+                    <a href="https://github.com/shntt/Kanary"
+                        class="text-gray-400 hover:text-white transition-colors duration-200">GitHub</a>
+                    <a href="https://github.com/shntt/Kanary/issues"
+                        class="text-gray-400 hover:text-white transition-colors duration-200">フィードバック</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+
+</html>

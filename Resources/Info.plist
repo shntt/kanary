@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>13.5</string>
+	<key>NSAccessibilityUsageDescription</key>
+	<string>キーボードイベントを監視してIMEを切り替えるために必要です。</string>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<false/>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>com.shintotakahashi.Kanary.LaunchAtLogin</key>
+		<string>identifier &quot;com.shintotakahashi.Kanary.LaunchAtLogin&quot;</string>
+	</dict>
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+	</array>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+</dict>
+</plist>

@@ -69,28 +69,28 @@ TestResults/
 
 
 ########################
-# GitHub Pages / Docs
+# GitHub Pages / docs
 ########################
 
-Docs/.env
-Docs/.env.local
-Docs/.DS_Store
+docs/.env
+docs/.env.local
+docs/.DS_Store
 
-Docs/node_modules/
-Docs/dist/
-Docs/out/
-Docs/build/
-Docs/.next/
-Docs/.nuxt/
-Docs/.jekyll-cache/
-Docs/.jekyll-metadata
-Docs/.sass-cache/
-Docs/.cache/
-Docs/.vuepress/dist
+docs/node_modules/
+docs/dist/
+docs/out/
+docs/build/
+docs/.next/
+docs/.nuxt/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/.sass-cache/
+docs/.cache/
+docs/.vuepress/dist
 
 # 一時/ログファイル
-Docs/*.log
-Docs/*.tmp
+docs/*.log
+docs/*.tmp
 
 
 ########################

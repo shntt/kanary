@@ -1,9 +1,10 @@
-# Kanary
+# README.md
 **日本語** | [English](./README_EN.md)
 
 <div align="center">
-  <img src="Docs/Kanary_screenshot.png" alt="Kanary Icon" width="700">
-  <p>左右の Command キーで IME を切り替える macOS ユーティリティです。</p>
+  <img src="docs/Kanary_screenshot.png" alt="Kanary Icon" width="700">
+  <h1>Kanary</h1>
+  <p>左右の Command キーで IME を切り替える macOS ユーティリティ</p>
 </div>
 
 ---

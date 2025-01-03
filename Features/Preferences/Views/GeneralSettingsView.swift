@@ -123,7 +123,7 @@ struct GeneralSettingsView: View {
                 ModernGroupBox(label: Label("情報", systemImage: "info.circle")) {
                     VStack(alignment: .leading, spacing: 8) {
                         ModernInfoRow(label: "バージョン", value: "1.0.0")
-                        ModernInfoRow(label: "ビルド", value: "2024.1")
+                        ModernInfoRow(label: "ビルド", value: "2025.1")
                         
                         Divider()
                         

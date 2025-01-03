@@ -89,9 +89,10 @@ final class ApplicationSettingsViewModel: ObservableObject {
         ]
         
         let excludedKeywords = [
-            "agent",
-            "helper",
-            "service",
+            "com.apple.SecurityAgent",
+            // "agent",
+            // "helper",
+            // "service",
             // ... 他の除外キーワード
         ]
         

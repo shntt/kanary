@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let settingsManager = SettingsManager.shared
     
     #if DEBUG
-    private let isDebugMode = true
+    private let isDebugMode = false
     #else
     private let isDebugMode = false
     #endif

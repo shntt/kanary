@@ -77,7 +77,7 @@ class DownloadManager: ObservableObject {
     }
 }
 
-// URLSessionDownloadDelegateの実装
+// URLSessionDownloadDelegate
 class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     private let progressHandler: (Double) -> Void
     
@@ -102,6 +102,6 @@ class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
         downloadTask: URLSessionDownloadTask,
         didFinishDownloadingTo location: URL
     ) {
-        // この実装は不要ですが、デリゲートメソッドとして必要です
+        // デリゲートメソッド
     }
 }

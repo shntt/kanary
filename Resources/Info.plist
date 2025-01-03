@@ -10,8 +10,8 @@
 	<false/>
 	<key>SMPrivilegedExecutables</key>
 	<dict>
-		<key>com.shintotakahashi.Kanary.LaunchAtLogin</key>
-		<string>identifier &quot;com.shintotakahashi.Kanary.LaunchAtLogin&quot;</string>
+		<key>com.shntt.Kanary.LaunchAtLogin</key>
+		<string>identifier &quot;com.shntt.Kanary.LaunchAtLogin&quot;</string>
 	</dict>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>

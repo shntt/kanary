@@ -33,7 +33,7 @@ final class UpdateService: NSObject, ObservableObject {
         isChecking = true
         error = nil
         
-        let url = URL(string: "https://api.github.com/repos/shintotakahashi/Kanary/releases/latest")!
+        let url = URL(string: "https://api.github.com/repos/shntt/Kanary/releases/latest")!
         
         URLSession.shared.dataTaskPublisher(for: url)
             .map(\.data)
@@ -131,11 +131,11 @@ final class UpdateService: NSObject, ObservableObject {
             - 特定の条件下でクラッシュする問題を修正
             - 設定が正しく保存されない問題を修正
             """,
-            htmlUrl: "https://github.com/shintotakahashi/Kanary/releases/tag/v2.0.0",
+            htmlUrl: "https://github.com/shntt/Kanary/releases/tag/v2.0.0",
             assets: [
                 Release.Asset(
                     name: "Kanary.dmg",
-                    browserDownloadUrl: "https://github.com/shintotakahashi/Kanary/releases/download/v2.0.0/Kanary.dmg"
+                    browserDownloadUrl: "https://github.com/shntt/Kanary/releases/download/v2.0.0/Kanary.dmg"
                 )
             ]
         )
